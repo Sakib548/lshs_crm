@@ -52,9 +52,12 @@ router.post('/webhook', async (req, res) => {
 
         console.log(` Lead saved successfully to database with ID: ${newLead.id}`);
         res.status(201).json({ success: true, lead: newLead });
-    } catch (error) {
+    } catch (error: any) {
         console.error(' Error saving lead from webhook:', error);
-        res.status(500).json({ error: 'Failed to save lead to database' });
+        res.status(500).json({
+            error: 'Failed to save lead to database',
+            details: error?.message || String(error)
+        });
     }
 });
 
